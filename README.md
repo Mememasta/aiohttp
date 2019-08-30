@@ -1,0 +1,20 @@
+List Python-libraries
+aiohttp
+aiohttp-jinja2
+aiohttp-session
+asn1crypto
+async-timeout
+attrs
+cffi
+chardet
+cryptography
+idna
+idna-ssl
+Jinja2
+MarkupSafe
+motor
+multidict
+pycparser
+pymongo
+six
+yarl
