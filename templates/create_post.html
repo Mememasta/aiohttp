@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if current_user %}
+        <div class="card container" style="position: relative; width: 800px; top: 25px; border-radius: 15px">
+            <form action="{{ url('add_post') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title" id="title" required placeholder="Enter title" value="">
+                </div>
+                <div class="form-group">
+                    <label for="message">Example textarea</label>
+                    <textarea class="form-control" id="message" name="message" required rows="3" value=""></textarea>
+                </div>
+                <input type="file" class="form-control-file " id="photo" name="photo" value=""/>
+                <input class="btn btn-outline-primary my-2 my-sm-0" type="submit" value="Send"/>
+            </form>
+
+        </div>
+    {% endif %}
+    {% if is_anonymous %}
+            <div id="post" class="card" style="text-align: center; height: 100%">
+                <div class="card-header">
+                    <h1>Авторизуйтесь</h1>
+                </div>
+                <div class="card-body" style="position: relative; top: 10%">
+                    <a class="btn btn-outline-primary my-2 my-sm-0" href="{{ url('login') }}">Login</a>
+                </div>
+            </div>
+
+        {% endif %}
+{% endblock %}
+

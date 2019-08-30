@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+    {% block content %}
+        {% if is_anonymous %}
+            <div class="card container" style="position: relative; height: 380px; width: 800px; top: 25px; border-radius: 25px ">
+              <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded" style="position: relative; top: 30px">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="text" value="" required class="form-control" placeholder="Enter email" autofocus/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" required class="form-control" placeholder="Password" value=""/>
+                </div>
+                <button type="submit" class="btn btn-primary" value="login">Sign in</button>
+              </form>
+              <div style="position: relative; top: 30px" class="dropdown-divider"></div>
+              <a style="position: relative; top: 30px" class="dropdown-item" href="{{ url('signup') }}">New around here? Sign up</a>
+
+
+              <div style="position: relative; top: 40px">
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    Launch Camera
+                  </button>
+              </div>
+
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Camera</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                        <div class="main-block">
+                        <div class="item">
+                          <video style="position: relative; left: 5%;" id="video" width="440" height="400" autoplay="autoplay" ></video>
+                        </div>
+
+                        <hr>
+
+                        <div class="item">
+                          <canvas style="position: relative; left: 5%" id="canvas" width="440" height="400"></canvas>
+                        </div>
+
+                        <hr>
+
+                      <div class="modal-body">
+                        <form action="{{ url('screen') }}" method="post" enctype="multipart/form-data">
+                            <input type="file" class="form-control-file" id="log_photo" name="log_photo" value=""/>
+                            <input type="submit" value="submit" class="btn btn-primary" onclick="submit()"/>
+                        </form>
+
+
+
+                        <input class="btn btn-outline-success my-2 my-sm-0" id="button" type="button" value="Screen" />
+
+                        <script>
+                            navigator.getUserMedia = navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia;
+
+                            if (navigator.getUserMedia) {
+                            navigator.getUserMedia({ audio: false, video: { width: 1920, height: 1080 } },
+                              function(stream) {
+                                 var video = document.querySelector('video');
+                                 video.srcObject = stream;
+                                 video.onloadedmetadata = function(e) {
+                                   video.play();
+                                 };
+                              },
+                              function(err) {
+                                 console.log("The following error occurred: " + err.name);
+                              }
+                            );
+                            } else {
+                            console.log("getUserMedia not supported");
+                            }
+
+                            window.onload = function () {
+                                var canvas = document.getElementById('canvas');
+                                var video = document.getElementById('video');
+                                var button = document.getElementById('button');
+                                var allow = document.getElementById('allow');
+                                var context = canvas.getContext('2d');
+
+                                var captureMe = function () {
+                                    context.translate(canvas.width, 0);
+                                    context.scale(-1, 1);
+                                    context.drawImage(video, 0, 0, video.width, video.height);
+                                    var base64dataUrl = canvas.toDataURL('image/png');
+                                    context.setTransform(1, 0, 0, 1, 0, 0);
+                                    var img = new Image();
+                                    img.src = base64dataUrl;
+
+                                    let form = document.createElement('form');
+                                    form.action = 'localhost:8080/login';
+                                    form.method = 'POST';
+
+
+                                    // перед отправкой формы, её нужно вставить в документ
+                                    document.body.append(form);
+
+                                    form.submit();
+
+                                };
+
+
+                                button.addEventListener('click', captureMe);
+                            }
+
+                        </script>
+
+                        </div>
+
+
+
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" value="login">Sign in</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+        {% endif %}
+    {% endblock %}
+
+
