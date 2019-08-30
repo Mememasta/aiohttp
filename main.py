@@ -12,6 +12,7 @@ from routes.base import setup_routes, setup_static_routes
 from config.common import BaseConfig
 from models.user import User
 
+
 async def current_user_ctx_processor(request):
     session = await get_session(request)
     user = None
