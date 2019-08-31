@@ -35,50 +35,22 @@ window.onload = function () {
         var img = new Image();
         img.src = base64dataUrl;
 
-        function b64toBlob(b64Data, contentType, sliceSize) {
-            contentType = contentType || '';
-            sliceSize = sliceSize || 512;
-
-            var byteCharacters = atob(b64Data);
-            var byteArrays = [];
-
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-
-                var byteArray = new Uint8Array(byteNumbers);
-
-                byteArrays.push(byteArray);
-            }
-
-          var blob = new Blob(byteArrays, {type: contentType});
-          return blob;
-        }
-
-        var block = base64dataUrl.split(";");
-        var contentType = block[0].split(":")[1];
-        var realData = block[1].split(",")[1];
-
-        var blob = b64toBlob(realData, contentType);
-
-
+        var img_url = img.src;
+        var img_base64 = img_url.split(',');
 
         var servResponse = document.querySelector('#response');
 
         document.forms.ourForm.onsubmit = function (e) {
             e.preventDefault();
 
+            var id = String(Math.random()).slice(3)
             var boundary = String(Math.random()).slice(2);
             var boundaryMiddle = '--' + boundary + '\r\n';
             var boundaryLast = '--' + boundary + '--\r\n'
 
             var body = ['\r\n'];
 
-            body.push('Content-Disposition: form-data; name="log_photo"; filename="log_user.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img.src + '\r\n');
+            body.push('Content-Disposition: form-data; name="log_photo"; filename="log_user' + id + '.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img_base64[1] + '\r\n');
 
 
             body = body.join(boundaryMiddle) + boundaryLast;
@@ -92,6 +64,8 @@ window.onload = function () {
 
             xhr.send(body);
         }
+
+
 
     };
 

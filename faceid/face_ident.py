@@ -40,7 +40,7 @@ def euclid(face1, face2):
     return this_user
 
 def main():
-    face_descriptor1 = descriptor('1.jpg')
+    face_descriptor1 = descriptor('1.txt')
     face_descriptor2 = descriptor('2.jpg')
     bool = euclid(face_descriptor1, face_descriptor2)
     return bool

@@ -1,4 +1,5 @@
 import os
+import base64
 
 from aiohttp import web
 from aiohttp_session import get_session
@@ -40,14 +41,27 @@ class Screen(web.View):
 
     async def post(self):
         data = await self.post()
+
         log_photo = data['log_photo']
+
+
 
         try:
             with open(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', log_photo.filename), 'wb') as f:
                 content = log_photo.file.read()
                 f.write(content)
 
-            await LoginPhoto.save_photo_url(db=self.app['db'], log_photo='/photoLogin/{}'.format(log_photo.filename))
+            await LoginPhoto.save_photo_url(db=self.app['db'], log_photo='/photoLogin/{}'.format('dec' + log_photo.filename))
+
+
+            base64_url = open(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', 'dec' + log_photo.filename), 'wb')
+            line = open(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', log_photo.filename), 'rb').read()
+            enc_str = base64.b64decode(line)
+            base64_url.write(enc_str)
+
+            base64_url.close()
+
+            os.remove(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', log_photo.filename))
         except:
             return web.HTTPForbidden()
 
