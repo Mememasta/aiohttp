@@ -41,6 +41,7 @@ class Screen(web.View):
     async def post(self):
         data = await self.post()
         log_photo = data['log_photo']
+
         try:
             with open(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', log_photo.filename), 'wb') as f:
                 content = log_photo.file.read()
