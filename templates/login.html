@@ -17,64 +17,49 @@
               <div style="position: relative; top: 30px" class="dropdown-divider"></div>
               <a style="position: relative; top: 30px" class="dropdown-item" href="{{ url('signup') }}">New around here? Sign up</a>
 
-
               <div style="position: relative; top: 40px">
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">
                     Launch Camera
                   </button>
               </div>
 
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" style="padding-right: 17px;" aria-modal="true">
+                  <div class="modal-dialog modal-xl">
+                    <div style="position: relative; width: 210%; right: 50%" class="modal-content ">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Camera</h5>
+                        <h5 class="modal-title h4" id="myExtraLargeModalLabel">Face Identificator</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                          <span aria-hidden="true">×</span>
                         </button>
                       </div>
+                      <div class="modal-body ">
 
+                            <div id="screen" class="item">
+                              <video id="video" width="500" height="500" autoplay="autoplay" ></video>
+                            </div>
 
-                        <div class="main-block">
-                        <div class="item">
-                          <video style="position: relative; left: 5%;" id="video" width="440" height="400" autoplay="autoplay" ></video>
-                        </div>
+                            <div id="screen" class="item">
+                              <canvas class="src"  id="canvas" width="500" height="500"></canvas>
+                            </div>
+                            {% if current_user %}
+                                <div>
+                                    <h4>User: {{current_user.first_name}} {{current_user.last_name}}; Email: {{ current_user.email }}</h4>
+                                </div>
+                            {% endif %}
+                            <script src="static/js/main.js"></script>
 
-                        <hr>
-
-                        <div class="item">
-                          <canvas class="src" style="position: relative; left: 5%" id="canvas" width="440" height="400"></canvas>
-                        </div>
-
-                        <script src="static/js/main.js"></script>
-
-                        <hr>
-
-                      <div class="modal-body">
-                        <form action="{{ url('screen') }}" method="post" enctype="multipart/form-data">
-                            <input type="file" class="form-control-file" id="log_photo" name="log_photo" value=""/>
-                            <input type="submit" value="submit" class="btn btn-primary" required="" onclick="submit()"/>
-
-                        </form>
-                        <div id="response"></div>
-                        <form action="" method="post" name="ourForm" enctype="multipart/form-data">
-                            <button class="btn btn-outline-success my-2 my-sm-0" id="button" type="submit" name="ourForm_btn" value="">Screen</button>
-
-                          <!--name="ourForm_btn"-->
-                        </form>
-<!--                        <script src="static/js/ajax.js"></script>-->
-
-
-                        </div>
-
-
-
-
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" value="login">Sign in</button>
+                            <div class="modal-footer">
+                                <div id="response"></div>
+                                <form action="" method="post" name="ourForm" enctype="multipart/form-data">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" id="button" type="submit" name="ourForm_btn" value="login">Screen</button>
+                                </form>
+                                <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                    <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{current_user.email}}"/>
+                                    <input id="password" name="password" type="hidden" class="form-control" value="{{current_user.password}}"/>
+                                    <button type="submit" class="btn btn-primary">Sing in</button>
+                                </form>
+                            </div>
                       </div>
                     </div>
                   </div>

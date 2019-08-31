@@ -41,3 +41,19 @@ body {
     height: 100%;
     width: 100%;
 }
+
+#screen {
+    float: left;
+    width: 50%;
+    float: left;
+}
+
+
+
+#canvas {
+    background: black;
+
+}
+video {
+    background: black;
+}

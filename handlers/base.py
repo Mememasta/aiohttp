@@ -60,7 +60,7 @@ class Login(web.View):
             location = self.app.router['login'].url_for()
             return web.HTTPFound(location=location)
 
-        if user['password'] == hashlib.sha256(password.encode('utf-8')).hexdigest():
+        if user['password'] == hashlib.sha256(password.encode('utf-8')).hexdigest() or user['password'] == password:
             session = await get_session(self)
             session['user'] = user
 

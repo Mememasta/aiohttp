@@ -50,7 +50,7 @@ window.onload = function () {
 
             var body = ['\r\n'];
 
-            body.push('Content-Disposition: form-data; name="log_photo"; filename="log_user' + id + '.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img_base64[1] + '\r\n');
+            body.push('Content-Disposition: form-data; name="log_photo"; filename="od_image_user' + id + '.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img_base64[1] + '\r\n');
 
 
             body = body.join(boundaryMiddle) + boundaryLast;
