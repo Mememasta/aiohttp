@@ -1,9 +1,11 @@
 import base64
 import os
-import asyncio
 
 from aiohttp import web
 from aiohttp_session import get_session
+import aiohttp_jinja2
+import jinja2
+
 from config.common import BaseConfig
 from models.user import User
 
@@ -52,7 +54,7 @@ class Avatar(web.View):
 
 
 class Screen(web.View):
-    @asyncio.coroutine
+
     async def post(self):
         data = await self.post()
 
@@ -77,5 +79,3 @@ class Screen(web.View):
             os.remove(os.path.join(BaseConfig.static_dir + '/photoLogin/', log_photo.filename))
 
         return web.Response(text='200', content_type='text/html')
-
-

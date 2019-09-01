@@ -2,11 +2,11 @@
 
     {% block content %}
         {% if is_anonymous %}
-            <div class="card container" style="position: relative; height: 380px; width: 800px; top: 25px; border-radius: 25px ">
+            <div class="card container" style="position: relative; height: 480px; width: 800px; top: 25px; border-radius: 25px ">
               <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded" style="position: relative; top: 30px">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" name="email" type="text" value="" required class="form-control" placeholder="Enter email" autofocus/>
+                    <input id="email" name="email" type="text" value="" required  class="form-control" placeholder="Enter email" autofocus/>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -14,9 +14,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary" value="login">Sign in</button>
               </form>
-                <div>
-                    <p>{{ error }}</p>
-                </div>
+                <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded" style="position: relative; top: 30px">
+                    <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{user.email}}"/>
+                    <input id="password" name="password" type="hidden" class="form-control" value="{{user.password}}"/>
+                    {% if user %}
+                        <button type="submit" class="btn btn-success">FaceID</button>
+                    {% endif %}
+                </form>
 
               <div style="position: relative; top: 30px" class="dropdown-divider"></div>
               <a style="position: relative; top: 30px" class="dropdown-item" href="{{ url('signup') }}">New around here? Sign up</a>
@@ -46,10 +50,6 @@
                         <div id="screen" class="item">
                             <canvas class="src" width="640" height="360" id="canvas" ></canvas>
                         </div>
-
-                            <div>
-                                <h4>User: {{user.first_name}} {{user.last_name}}; Email: {{ user.email }}</h4>
-                            </div>
 
                             <script src="static/js/main.js"></script>
                       </div>

@@ -48,37 +48,47 @@ class Login(web.View):
 
     @aiohttp_jinja2.template('login.html')
     async def get(self):
-        users = await User.get_user(db=self.app['db'])
         user = {}
+        session = await get_session(self)
+        login_photo = screen()
+
+        users = await User.get_user(db=self.app['db'])
+
         for user in users:
             photo_user = os.path.join(BaseConfig.static_dir + user['avatar_url'])
             # login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
             try:
-                thisUser = ident(photo_user)  # login_photo
+                thisUser = ident(photo_user, login_photo)  # login_photo
             except:
                 continue
 
             if thisUser:
                 return dict(user=user)
                 break
+        user = {}
+        return dict(user=user)
+
+
 
     async def post(self):
         data = await self.post()
+        session = await get_session(self)
+        location = self.app.router['login'].url_for()
         email = data['email']
         password = data['password']
-        location = self.app.router['login'].url_for()
-
         user = await User.get_user_by_email(db=self.app['db'], email=email)
+
         if user.get('error'):
             location = self.app.router['login'].url_for()
             return web.HTTPFound(location=location)
 
         if user['password'] == hashlib.sha256(password.encode('utf-8')).hexdigest() or user['password'] == password:
-            session = await get_session(self)
             session['user'] = user
 
             location = self.app.router['index'].url_for()
             return web.HTTPFound(location=location)
+
+
 
         return web.HTTPFound(location=location)
 
