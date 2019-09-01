@@ -9,7 +9,8 @@ from config.common import BaseConfig
 from models.post import Post
 from models.user import User
 from models.comments import Comments
-# from faceid.face_ident import FaceId
+from faceid.FaceIdent_v2 import *
+
 
 
 class Index(web.View):
@@ -48,8 +49,19 @@ class Login(web.View):
 
     @aiohttp_jinja2.template('login.html')
     async def get(self):
+        users = await User.get_user(db=self.app['db'])
         user = {}
-        return dict(user=user)
+        for user in users:
+            photo_user = os.path.join(BaseConfig.static_dir + user['avatar_url'])
+            login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
+            try:
+                thisUser = ident(photo_user, login_photo)
+            except:
+                continue
+
+            if thisUser:
+                return dict(user=user)
+                break
 
     async def post(self):
         data = await self.post()

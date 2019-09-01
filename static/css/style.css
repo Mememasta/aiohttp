@@ -44,14 +44,14 @@ body {
 
 #screen {
     float: left;
-    width: 50%;
-    float: left;
+    margin: 5px;
 }
 
 
 
 #canvas {
     background: black;
+    position: absolute;
 
 }
 video {

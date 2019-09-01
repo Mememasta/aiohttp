@@ -26,7 +26,7 @@
 
                 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" style="padding-right: 17px;" aria-modal="true">
                   <div class="modal-dialog modal-xl">
-                    <div style="position: relative; width: 210%; right: 50%" class="modal-content ">
+                    <div style="position: relative; width: 270%; right: 90%" class="modal-content ">
                       <div class="modal-header">
                         <h5 class="modal-title h4" id="myExtraLargeModalLabel">Face Identificator</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -35,30 +35,32 @@
                       </div>
                       <div class="modal-body ">
 
-                            <div id="screen" class="item">
-                              <video id="video" width="500" height="500" autoplay="autoplay" ></video>
-                            </div>
+                        <div id="screen" class="item">
+                          <video id="video" width="640" height="360" autoplay="autoplay" ></video>
+                        </div>
 
-                            <div id="screen" class="item">
-                              <canvas class="src"  id="canvas" width="500" height="500"></canvas>
-                            </div>
+                        <div id="screen" class="item">
+                            <canvas class="src" width="640" height="360" id="canvas" ></canvas>
+                        </div>
+
                             <div>
                                 <h4>User: {{user.first_name}} {{user.last_name}}; Email: {{ user.email }}</h4>
                             </div>
-                            <script src="static/js/main.js"></script>
 
-                            <div class="modal-footer">
-                                <div id="response"></div>
-                                <form action="" method="post" name="ourForm" enctype="multipart/form-data">
-                                    <button class="btn btn-outline-success my-2 my-sm-0" id="button" type="submit" name="ourForm_btn" value="login">Screen</button>
-                                </form>
-                                <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
-                                    <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{user.email}}"/>
-                                    <input id="password" name="password" type="hidden" class="form-control" value="{{user.password}}"/>
-                                    <button type="submit" class="btn btn-primary">Sing in</button>
-                                </form>
-                            </div>
+                            <script src="static/js/main.js"></script>
                       </div>
+
+                        <div class="modal-footer">
+                            <div id="response"></div>
+                            <form action="{{ url('screen') }}" method="post" name="ourForm" enctype="multipart/form-data">
+                                <button class="btn btn-outline-success my-2 my-sm-0" id="button" type="submit" name="log_photo" value="login">Screen</button>
+                            </form>
+                            <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{user.email}}"/>
+                                <input id="password" name="password" type="hidden" class="form-control" value="{{user.password}}"/>
+                                <button type="submit" class="btn btn-primary">Sing in</button>
+                            </form>
+                        </div>
                     </div>
                   </div>
                 </div>

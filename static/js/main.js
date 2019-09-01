@@ -3,7 +3,7 @@ navigator.webkitGetUserMedia ||
 navigator.mozGetUserMedia;
 
 if (navigator.getUserMedia) {
-navigator.getUserMedia({ audio: false, video: { width: 1920, height: 1080 } },
+navigator.getUserMedia({ audio: false, video: { width: 1920  , height: 1080 } },
   function(stream) {
      var video = document.querySelector('video');
      video.srcObject = stream;
@@ -21,15 +21,13 @@ console.log("getUserMedia not supported");
 
 window.onload = function () {
     var canvas = document.getElementById('canvas');
-    var video = document.getElementById('video');
     var button = document.getElementById('button');
+    var video = document.getElementById('video');
     var allow = document.getElementById('allow');
     var context = canvas.getContext('2d');
 
     var captureMe = function () {
-        context.translate(canvas.width, 0);
-        context.scale(-1, 1);
-        context.drawImage(video, 0, 0, video.width, video.height);
+        context.drawImage(video, 0, 0, 640, 360);
         var base64dataUrl = canvas.toDataURL('image/jpg');
         context.setTransform(1, 0, 0, 1, 0, 0);
         var img = new Image();
@@ -50,7 +48,7 @@ window.onload = function () {
 
             var body = ['\r\n'];
 
-            body.push('Content-Disposition: form-data; name="log_photo"; filename="od_image_user' + id + '.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img_base64[1] + '\r\n');
+            body.push('Content-Disposition: form-data; name="log_photo"; filename="decod_image_user' + id + '.jpg"\nContent-Type: image/jpeg\r\n\r\n' + img_base64[1] + '\r\n');
 
 
             body = body.join(boundaryMiddle) + boundaryLast;

@@ -24,7 +24,7 @@ class User:
             user['_id'] = str(user['_id'])
             return user
         else:
-            return dict(error='User with email {} not found'.format(user_id))
+            return dict(error='User with id {} not found'.format(user_id))
 
     @staticmethod
     async def get_user(db: AsyncIOMotorDatabase, limit=20):
