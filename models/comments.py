@@ -30,3 +30,11 @@ class Comments:
     async def get_send_comments(db: AsyncIOMotorDatabase, limit=20):
         comments = await db.comments.find().to_list(limit)
         return comments
+
+
+
+
+    @staticmethod
+    async def delete_comment_by_id(db: AsyncIOMotorDatabase, _id: str):
+        if _id:
+            db.comments.remove({'_id': ObjectId(_id)})

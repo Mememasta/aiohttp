@@ -41,10 +41,36 @@ class User:
         if data['first_name'] and data['last_name'] and data['password']:
             data = dict(data)
             data['password'] = hashlib.sha256(data['password'].encode('utf-8')).hexdigest()
+            data['privilege'] = 'user'
+            data['banned'] = 'false'
             result = await db.users.insert_one(data)
             return result
         else:
             return dict(error='Missing user data parameters')
+
+    @staticmethod
+    async def create_new_admin(db: AsyncIOMotorDatabase, data):
+        email = data['email']
+        admin = await db.admins.find_one({'email': email})
+        if admin:
+            return dict(error='user with email {} exist'.format(email))
+
+        if data['first_name'] and data['last_name'] and data['password']:
+            data = dict(data)
+            data['password'] = hashlib.sha256(data['password'].encode('utf-8')).hexdigest()
+            data['privilege'] = 'admin'
+            data['banned'] = 'false'
+            result = await db.admins.insert_one(data)
+            return result
+        else:
+            return dict(error='Missing user data parametrs')
+
+
+    @staticmethod
+    async def ban_user(db: AsyncIOMotorDatabase, user_id: str):
+        if user_id:
+            db.users.update_one({'_id': ObjectId(user_id)}, {'$set': {'banned': 'True'}})
+
 
     @staticmethod
     async def save_avatar_url(db: AsyncIOMotorDatabase, user_id: str, url: str):

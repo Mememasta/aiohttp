@@ -39,3 +39,10 @@ class Post:
     async def get_post_by_user(db: AsyncIOMotorDatabase, user_id: str, limit=20):
         posts = await db.posts.find({'user_id': ObjectId(user_id)}).to_list(limit)
         return posts
+
+
+
+    @staticmethod
+    async def delete_post_by_id(db: AsyncIOMotorDatabase, _id: str):
+        if _id:
+            db.posts.remove({'user_id': ObjectId(_id)})

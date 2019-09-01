@@ -12,7 +12,6 @@ from models.comments import Comments
 from faceid.FaceIdent_v2 import *
 
 
-
 class Index(web.View):
 
     @aiohttp_jinja2.template('base.html')
@@ -53,9 +52,9 @@ class Login(web.View):
         user = {}
         for user in users:
             photo_user = os.path.join(BaseConfig.static_dir + user['avatar_url'])
-            login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
+            # login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
             try:
-                thisUser = ident(photo_user, login_photo)
+                thisUser = ident(photo_user)  # login_photo
             except:
                 continue
 
@@ -162,5 +161,3 @@ class Posts(web.View):
             all_comment = await Comments.get_send_comments(db=self.app['db'])
 
         return dict(all_comment=all_comment, posts=posts, user=user)
-
-
