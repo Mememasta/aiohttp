@@ -18,3 +18,5 @@ pycparser
 pymongo
 six
 yarl
+dlib
+face_recognition
