@@ -4,6 +4,7 @@ from handlers.comments import CommentsView
 
 from config.common import BaseConfig
 
+
 def setup_routes(app):
     app.router.add_get('/', Index.get, name='index')
     app.router.add_get('/user', Profile.get, name='user')
@@ -20,7 +21,6 @@ def setup_routes(app):
 
     app.router.add_get('/comments', CommentsView.get, name='comments')
     app.router.add_post('/send_comment', CommentsView.post, name='send_comment')
-
 
 
 def setup_static_routes(app):

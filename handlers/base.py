@@ -9,6 +9,7 @@ from config.common import BaseConfig
 from models.post import Post
 from models.user import User
 from models.comments import Comments
+# from faceid.face_ident import FaceId
 
 
 class Index(web.View):
@@ -47,7 +48,8 @@ class Login(web.View):
 
     @aiohttp_jinja2.template('login.html')
     async def get(self):
-        return dict()
+        user = {}
+        return dict(user=user)
 
     async def post(self):
         data = await self.post()

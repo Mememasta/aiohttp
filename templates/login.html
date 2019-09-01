@@ -42,11 +42,9 @@
                             <div id="screen" class="item">
                               <canvas class="src"  id="canvas" width="500" height="500"></canvas>
                             </div>
-                            {% if current_user %}
-                                <div>
-                                    <h4>User: {{current_user.first_name}} {{current_user.last_name}}; Email: {{ current_user.email }}</h4>
-                                </div>
-                            {% endif %}
+                            <div>
+                                <h4>User: {{user.first_name}} {{user.last_name}}; Email: {{ user.email }}</h4>
+                            </div>
                             <script src="static/js/main.js"></script>
 
                             <div class="modal-footer">
@@ -55,8 +53,8 @@
                                     <button class="btn btn-outline-success my-2 my-sm-0" id="button" type="submit" name="ourForm_btn" value="login">Screen</button>
                                 </form>
                                 <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
-                                    <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{current_user.email}}"/>
-                                    <input id="password" name="password" type="hidden" class="form-control" value="{{current_user.password}}"/>
+                                    <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{user.email}}"/>
+                                    <input id="password" name="password" type="hidden" class="form-control" value="{{user.password}}"/>
                                     <button type="submit" class="btn btn-primary">Sing in</button>
                                 </form>
                             </div>
