@@ -20,12 +20,12 @@ class Index(web.View):
         session = await get_session(self)
         user = {}
         posts = []
-        all_user = {}
+        all_users = {}
         if 'user' in session:
-            all_user = await User.get_user(db=self.app['db'])
+            all_users = await User.get_user(db=self.app['db'])
             user = session['user']
             posts = await Post.get_post(db=self.app['db'])
-        return dict(conf=conf, user=user, posts=posts, all_user=all_user)
+        return dict(conf=conf, user=user, posts=posts, all_users=all_users)
 
 
 class Profile(web.View):
@@ -55,7 +55,10 @@ class Login(web.View):
         users = await User.get_user(db=self.app['db'])
 
         for user in users:
-            photo_user = os.path.join(BaseConfig.static_dir + user['avatar_url'])
+            try:
+                photo_user = os.path.join(BaseConfig.static_dir + user['avatar_url'])
+            except:
+                photo_user = None
             # login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
             try:
                 thisUser = ident(photo_user, login_photo)  # login_photo
@@ -67,8 +70,6 @@ class Login(web.View):
                 break
         user = {}
         return dict(user=user)
-
-
 
     async def post(self):
         data = await self.post()
@@ -88,8 +89,6 @@ class Login(web.View):
             location = self.app.router['index'].url_for()
             return web.HTTPFound(location=location)
 
-
-
         return web.HTTPFound(location=location)
 
 
@@ -101,6 +100,8 @@ class Signup(web.View):
 
     async def post(self):
         data = await self.post()
+        first_name = data['first_name']
+
         result = await User.create_new_user(db=self.app['db'], data=data)
         if not result:
             location = self.app.router['signup'].url_for()
@@ -123,11 +124,48 @@ class Logout(web.View):
         return web.HTTPFound(location=location)
 
 
+class Banned(web.View):
+
+    async def post(self):
+        data = await self.post()
+        banned = data['banned']
+        user_id = data['user_id']
+
+        if banned == 'True':
+            await User.unban_user(db=self.app['db'], user_id=user_id)
+        else:
+            await User.ban_user(db=self.app['db'], user_id=user_id)
+
+        location = self.app.router['index'].url_for()
+
+        return web.HTTPFound(location=location)
+
+
+class UserDelete(web.View):
+
+    async def post(self):
+        data = await self.post()
+        user_id = data['user_id']
+        session = await get_session(self)
+        users = await User.get_user(db=self.app['db'])
+
+        await User.delete_user(db=self.app['db'], user_id=user_id)
+
+
+        location = self.app.router['index'].url_for()
+
+        return web.HTTPFound(location=location)
+
+
 class PostView(web.View):
 
     @aiohttp_jinja2.template('create_post.html')
     async def get(self):
-        return dict()
+        session = await get_session(self)
+        user = {}
+        if 'user' in session:
+            user = session['user']
+        return dict(user=user)
 
     async def post(self):
         data = await self.post()
@@ -164,10 +202,18 @@ class Posts(web.View):
         user = {}
         all_comment = []
         posts = []
+        user_banned = {}
         if 'user' in session:
             user = session['user']
             posts = await Post.get_post(db=self.app['db'])  # user_id=user['_id']
-
             all_comment = await Comments.get_send_comments(db=self.app['db'])
 
         return dict(all_comment=all_comment, posts=posts, user=user)
+
+    async def post(self):
+        data = await self.post()
+        post_id = data['post_id']
+
+        await Post.delete_post_by_id(db=self.app['db'], post_id=post_id)
+
+        return web.HTTPFound(location=self.app.router['posts'].url_for())

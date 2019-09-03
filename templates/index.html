@@ -10,98 +10,98 @@
 
     {% if current_user %}
 
-                <div class="card" id="profile_posts">
-                    <div class="card-header"><h2>Photo</h2></div>
-                    <div class="card-body">
-                        {% if current_user.avatar_url %}
-                            <a type="button" class="" data-toggle="modal" data-target="#exampleModal">
-                                <img style="position: relative;width: 100%; max-width: 100%; border-radius: 5px;" class="card-img-top" src="{{ url('static', filename=current_user.avatar_url) }}" alt="User photo">
-                            </a>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Photo</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <img style="position: relative;width: 100%; max-width: 100%; border-radius: 5px;" class="card-img-top" src="{{ url('static', filename=current_user.avatar_url) }}" alt="User photo">
-                                  </div>
-                                  <div class="modal-footer">
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                        {% endif %}
-                        <h5 class="card-title">Hello {{ current_user.first_name }} {{ current_user.last_name }}</h5>
-                        <hr>
-                        <form action="{{ url('save_avatar') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-
-                            <div class="form-group">
-                                    <input type="file" class="form-control-file" id="avatar" name="avatar"/>
-
-                                    <input type="submit" value="submit" class="btn btn-primary"/>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card" id="profile_posts">
-                    <div class="card-header">
-                        <h2>My posts</h2>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                          <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">More comments</a>
-                        </p>
-                        <div class="row">
-                          <div class="col">
-                            <div class="collapse multi-collapse" id="multiCollapseExample1">
-                              <div class="card card-body">
-                                {% for post in posts_user %}
-                                    <div class="d-flex w-100 justify-content-between">
-                                      <h6 class="mb-1">{{post.title}}</h6>
-                                      <small>{{post.date_created}}</small>
-                                    </div>
-                                      <p class="mb-1"><small>{{post.message}}</small></p>
-                                      <hr style="height: 0.01%">
-                                {% endfor %}
-                              </div>
-                            </div>
+        <div class="card" id="profile_posts">
+            <div class="card-header"><h2>Photo</h2></div>
+            <div class="card-body">
+                {% if current_user.avatar_url %}
+                    <a type="button" class="" data-toggle="modal" data-target="#exampleModal">
+                        <img style="position: relative;width: 100%; max-width: 100%; border-radius: 5px;" class="card-img-top" src="{{ url('static', filename=current_user.avatar_url) }}" alt="User photo">
+                    </a>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Photo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <img style="position: relative;width: 100%; max-width: 100%; border-radius: 5px;" class="card-img-top" src="{{ url('static', filename=current_user.avatar_url) }}" alt="User photo">
+                          </div>
+                          <div class="modal-footer">
                           </div>
                         </div>
-                        <br>
+                      </div>
                     </div>
-                </div>
 
-                <div class="card" id="profile_posts">
-                    <div class="card-header"><h2>My comments</h2></div>
-                    <div class="card-body">
-                        <p>
-                          <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">More comments</a>
-                        </p>
-                        <div class="row">
-                            <div class="col">
-                                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                    <div class="card card-body">
-                                        {% for comm in send_comment %}
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="mb-1">{{comm.title}}</h6>
-                                            <small>{{comm.data_created}}</small>
-                                        </div>
-                                        <p class="mb-1"><small>{{comm.message}}</small></p>
-                                        <hr style="height: 0.01%">
-                                        {% endfor %}
-                                    </div>
+                {% endif %}
+                <h5 class="card-title">Hello {{ current_user.first_name }} {{ current_user.last_name }}</h5>
+                <hr>
+                <form action="{{ url('save_avatar') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                            <input type="file" class="form-control-file" id="avatar" name="avatar"/>
+
+                            <input type="submit" value="submit" class="btn btn-primary"/>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" id="profile_posts">
+            <div class="card-header">
+                <h2>My posts</h2>
+            </div>
+            <div class="card-body">
+                <p>
+                  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">More comments</a>
+                </p>
+                <div class="row">
+                  <div class="col">
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                      <div class="card card-body">
+                        {% for post in posts_user %}
+                            <div class="d-flex w-100 justify-content-between">
+                              <h6 class="mb-1">{{post.title}}</h6>
+                              <small>{{post.date_created}}</small>
+                            </div>
+                              <p class="mb-1"><small>{{post.message}}</small></p>
+                              <hr style="height: 0.01%">
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <div class="card" id="profile_posts">
+            <div class="card-header"><h2>My comments</h2></div>
+            <div class="card-body">
+                <p>
+                  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">More comments</a>
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="multiCollapseExample2">
+                            <div class="card card-body">
+                                {% for comm in send_comment %}
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{comm.title}}</h6>
+                                    <small>{{comm.data_created}}</small>
                                 </div>
+                                <p class="mb-1"><small>{{comm.message}}</small></p>
+                                <hr style="height: 0.01%">
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
     {% endif %}

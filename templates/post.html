@@ -6,7 +6,18 @@
 
                 <div class="card" id="post">
                   <div class="card-header">
-                    <h2>{{post.title}}{{all_comment.message}}</h2>
+                    <h2>
+                        {{post.title}}
+                        {% if current_user.privilege == 'admin' %}
+                            <form style="position: relative;" action="{{ url('delete_post') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" id="post_id" name="post_id" value="{{ post._id }}">
+                                <button style="position: relative; top: -30px"  type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </h2>
+
                   </div>
                   <div class="card-body">
                     {% if post.photo %}
@@ -29,7 +40,18 @@
                                       {% if post._id == comm.to_post %}
                                       <div class="d-flex w-100 justify-content-between">
                                           <h6 class="mb-1">{{comm.author}}</h6>
-                                          <small>{{comm.data_created}}</small>
+                                          <small>
+                                              {{comm.data_created}}
+                                              {% if current_user.privilege == 'admin' %}
+                                                <form style="position: relative;" action="{{ url('delete_comment') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                                    <input type="hidden" id="comment_id" name="comment_id" value="{{ comm._id }}">
+                                                    <button style="position: relative;"  type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </form>
+                                              {% endif %}
+                                          </small>
+
                                       </div>
                                       <p class="mb-1"><small>{{comm.message}}</small></p>
                                       <hr style="height: 0.01%">
@@ -44,18 +66,20 @@
                     </p>
 
 
+                    {% if current_user.banned == 'False' %}
+                        <form action="{{ url('send_comment') }}" method="post" accept-charset="utf-8">
+                            <label for="comment_text"><small>Send text</small></label>
 
-                    <form action="{{ url('send_comment') }}" method="post" accept-charset="utf-8">
-                        <label for="comment_text"><small>Send text</small></label>
+                            <div class="form-group">
+                                <textarea class="form-control" id="comment_text" name="comment_text" required value="" rows="1"></textarea>
+                            </div>
 
-                        <div class="form-group">
-                            <textarea class="form-control" id="comment_text" name="comment_text" required value="" rows="1"></textarea>
-                        </div>
+                            <input type="hidden" id="author" name="author" value="{{ current_user.first_name }}">
+                            <input type="hidden" id="to_post" name="to_post" value="{{ post._id }}">
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Send...</button>
+                        </form>
+                    {% endif %}
 
-                        <input type="hidden" id="author" name="author" value="{{ current_user.first_name }}">
-                        <input type="hidden" id="to_post" name="to_post" value="{{ post._id }}">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Send...</button>
-                    </form>
                   </div>
                 </div>
 

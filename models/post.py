@@ -43,6 +43,6 @@ class Post:
 
 
     @staticmethod
-    async def delete_post_by_id(db: AsyncIOMotorDatabase, _id: str):
-        if _id:
-            db.posts.remove({'user_id': ObjectId(_id)})
+    async def delete_post_by_id(db: AsyncIOMotorDatabase, post_id: str):
+        if post_id:
+            db.posts.delete_one({'_id': ObjectId(post_id)})

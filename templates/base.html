@@ -22,7 +22,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mr-auto">
+
                 {% if current_user %}
+
                   <li class="nav-item active">
                     <a class="nav-link" href="{{ url('user') }}">Profile {{current_user.first_name}}<span class="sr-only">(current)</span></a>
                   </li>
@@ -49,24 +51,49 @@
         </nav>
     </div>
 
+
     <div class="container">
 
         <div class="row">
             <div class="col" style="">
                 {% block content %}
-                    <div class="container" style="position: relative; height: 500px; width: 800px; top: 25px">
+                    {% if current_user.privilege == 'admin' %}
 
-                        <div class='card' style="text-align: center; border-radius: 15px">
-                            <div class="card-header">
-                                <h3>All Users</h3>
-                            </div>
-                            <div class="card-body">
-                                {% for use in all_user %}
-                                    <h4>{{ use.first_name }} {{use.last_name}}</h4>
-                                {% endfor %}
+                        <div class="container" style="position: relative; height: 500px; width: 800px; top: 25px">
+
+                            <div class='card' style="text-align: center; border-radius: 15px">
+                                <div class="card-header">
+                                    <h3>All Users</h3>
+                                </div>
+                                <div class="card-body">
+                                    {% for user in all_users %}
+                                        <h4>
+                                            <div id="admin">
+                                                {{ user.first_name }} {{user.last_name}}  {{user.email}}
+                                            </div>
+
+                                            <div id="admin">
+                                                <form action="{{ url('banned') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                                    <input type="hidden" id="banned" name="banned" value="{{ user.banned }}">
+                                                    <input type="hidden" id="user_id" name="user_id" value="{{ user._id }}">
+                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% if user.banned == 'False' %}Ban{% else %}unban{% endif %}</button>
+                                                </form>
+                                            </div>
+
+                                            <div id="admin">
+                                                <form action="{{ url('delete_user') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                                    <input type="hidden" id="user_id" name="user_id" value="{{ user._id }}">
+                                                    <button style="position: relative;"  type="submit" class="btn btn-outline-danger my-2 my-sm-0" data-dismiss="modal" aria-label="Close">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </h4>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endblock %}
             </div>
         </div>

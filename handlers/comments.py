@@ -26,7 +26,8 @@ class CommentsView(web.View):
 
         all_comment = await Comments.get_send_comments(db=self.app['db'])
 
-        return dict(inbox_comment=inbox_comment, send_comment=send_comment, all_comment=all_comment, posts=posts, user=user)
+        return dict(inbox_comment=inbox_comment, send_comment=send_comment, all_comment=all_comment, posts=posts,
+                    user=user)
 
     async def post(self):
         session = await get_session(self)
@@ -35,8 +36,20 @@ class CommentsView(web.View):
             return web.HTTPForbidden
 
         data = await self.post()
-        await Comments.create_comment(db=self.app['db'], from_user=session['user']['_id'], author=session['user']['first_name'], to_post=data['to_post'],
+
+
+        await Comments.create_comment(db=self.app['db'], from_user=session['user']['_id'],
+                                      author=session['user']['first_name'], to_post=data['to_post'],
                                       message=data['comment_text'])
 
         location = self.app.router['posts'].url_for()
         return web.HTTPFound(location=location)
+
+class CommentsDel(web.View):
+
+    async def post(self):
+        data = await self.post()
+
+        await Comments.delete_comment_by_id(db=self.app['db'], comment_id=data['comment_id'])
+
+        return web.HTTPFound(location=self.app.router['posts'].url_for())

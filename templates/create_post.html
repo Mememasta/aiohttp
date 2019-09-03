@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if current_user %}
+    {% if current_user and current_user.banned == 'False' %}
+
         <div class="card container" style="position: relative; width: 800px; top: 25px; border-radius: 15px">
             <form action="{{ url('add_post') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                 <div class="form-group">

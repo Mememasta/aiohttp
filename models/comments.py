@@ -35,6 +35,6 @@ class Comments:
 
 
     @staticmethod
-    async def delete_comment_by_id(db: AsyncIOMotorDatabase, _id: str):
-        if _id:
-            db.comments.remove({'_id': ObjectId(_id)})
+    async def delete_comment_by_id(db: AsyncIOMotorDatabase, comment_id: str):
+        if comment_id:
+            db.comments.delete_one({'_id': ObjectId(comment_id)})
