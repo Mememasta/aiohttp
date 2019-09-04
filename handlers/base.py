@@ -62,13 +62,17 @@ class Login(web.View):
             # login_photo = os.path.join(BaseConfig.static_dir + '/photoLogin/decod_image_user403446826629198.jpg')
             try:
                 thisUser = ident(photo_user, login_photo)  # login_photo
+
             except:
                 continue
 
             if thisUser:
+                os.remove(login_photo)
                 return dict(user=user)
                 break
+
         user = {}
+        os.remove(login_photo)
         return dict(user=user)
 
     async def post(self):
@@ -150,7 +154,6 @@ class UserDelete(web.View):
         users = await User.get_user(db=self.app['db'])
 
         await User.delete_user(db=self.app['db'], user_id=user_id)
-
 
         location = self.app.router['index'].url_for()
 

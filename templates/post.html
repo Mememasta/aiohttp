@@ -37,34 +37,33 @@
                               <div class="collapse multi-collapse" id="{{ post._id }}">
                                   <div class="card card-body">
                                       {% for comm in all_comment %}
-                                      {% if post._id == comm.to_post %}
-                                      <div class="d-flex w-100 justify-content-between">
-                                          <h6 class="mb-1">{{comm.author}}</h6>
-                                          <small>
-                                              {{comm.data_created}}
-                                              {% if current_user.privilege == 'admin' %}
-                                                <form style="position: relative;" action="{{ url('delete_comment') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
-                                                    <input type="hidden" id="comment_id" name="comment_id" value="{{ comm._id }}">
-                                                    <button style="position: relative;"  type="submit" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </form>
-                                              {% endif %}
-                                          </small>
+                                          {% if post._id == comm.to_post %}
+                                              <div class="d-flex w-100 justify-content-between">
+                                                  <h6 class="mb-1">{{comm.author}}</h6>
+                                                  <small>
+                                                      {{comm.data_created}}
+                                                      {% if current_user.privilege == 'admin' %}
+                                                        <form style="position: relative;" action="{{ url('delete_comment') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                                                            <input type="hidden" id="comment_id" name="comment_id" value="{{ comm._id }}">
+                                                            <button style="position: relative;"  type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </form>
+                                                      {% endif %}
+                                                  </small>
 
-                                      </div>
-                                      <p class="mb-1"><small>{{comm.message}}</small></p>
-                                      <hr style="height: 0.01%">
-                                      {% endif %}
+                                              </div>
+                                              <p class="mb-1"><small>{{comm.message}}</small></p>
+                                              <hr style="height: 0.01%">
+                                          {% endif %}
                                       {% endfor %}
                                   </div>
                               </div>
                           </div>
                       </div>
-                      <p>
-                      <a class="btn btn-primary" data-toggle="collapse" href="#{{ post._id }}" role="button" aria-expanded="false" aria-controls="{{ post._id }}">More comments</a>
+                     <p>
+                      <a class="btn btn-primary" data-toggle="collapse" href="#{{ post._id }}" role="button" aria-expanded="false" aria-controls="">More comments</a>
                     </p>
-
 
                     {% if current_user.banned == 'False' %}
                         <form action="{{ url('send_comment') }}" method="post" accept-charset="utf-8">

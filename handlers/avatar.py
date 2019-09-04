@@ -3,6 +3,7 @@ import os
 
 from aiohttp import web
 from aiohttp_session import get_session
+from faceid.FaceIdent_v2 import *
 import aiohttp_jinja2
 import jinja2
 
@@ -57,7 +58,6 @@ class Screen(web.View):
 
     async def post(self):
         data = await self.post()
-
         log_photo = data['log_photo']
 
         try:
@@ -65,8 +65,6 @@ class Screen(web.View):
                 content = log_photo.file.read()
                 image = base64.b64decode(content)
                 f.write(image)
-
-            os.remove(os.path.join(BaseConfig.static_dir + '\\photoLogin\\', log_photo.filename))
 
             # await LoginPhoto.save_photo_url(db=self.app['db'],
             #                                 log_photo='/photoLogin/{}'.format('dec' + log_photo.filename))
@@ -76,6 +74,8 @@ class Screen(web.View):
                 image = base64.b64decode(content)
                 f.write(image)
 
-            os.remove(os.path.join(BaseConfig.static_dir + '/photoLogin/', log_photo.filename))
+            log_photo = str(log_photo)
 
-        return web.Response(text='200', content_type='text/html')
+        return web.Response(text=log_photo)
+
+

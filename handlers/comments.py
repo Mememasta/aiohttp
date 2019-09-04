@@ -37,13 +37,13 @@ class CommentsView(web.View):
 
         data = await self.post()
 
-
         await Comments.create_comment(db=self.app['db'], from_user=session['user']['_id'],
                                       author=session['user']['first_name'], to_post=data['to_post'],
                                       message=data['comment_text'])
 
         location = self.app.router['posts'].url_for()
         return web.HTTPFound(location=location)
+
 
 class CommentsDel(web.View):
 
