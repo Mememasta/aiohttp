@@ -1,5 +1,5 @@
 import base64
-import os
+from sys import platform
 
 from aiohttp import web
 from aiohttp_session import get_session
@@ -27,28 +27,30 @@ class Avatar(web.View):
         avatar = data['avatar']
 
         try:
-            with open(os.path.join(BaseConfig.static_dir + '\\avatars\\', avatar.filename), 'wb') as f:
-                content = avatar.file.read()
-                f.write(content)
+            if platform == "linux" or platform == "linux2":
+                with open(os.path.join(BaseConfig.static_dir + '/avatars/', avatar.filename), 'wb') as f:
+                    content = avatar.file.read()
+                    f.write(content)
 
-            image_name = user['first_name'] + '_' + user['_id'] + '.jpg'
-            os.rename(os.path.join(BaseConfig.static_dir + '\\avatars\\', avatar.filename),
-                      os.path.join(BaseConfig.static_dir + '\\avatars\\', image_name))
+                image_name = user['first_name'] + '_' + user['_id'] + '.jpg'
+                os.rename(os.path.join(BaseConfig.static_dir + '/avatars/', avatar.filename),
+                          os.path.join(BaseConfig.static_dir + '/avatars/', image_name))
 
-            await User.save_avatar_url(db=self.app['db'], user_id=user['_id'],
-                                       url='/avatars/{}'.format(image_name))
+                await User.save_avatar_url(db=self.app['db'], user_id=user['_id'],
+                                           url='/avatars/{}'.format(image_name))
+            else:
+                with open(os.path.join(BaseConfig.static_dir + '\\avatars\\', avatar.filename), 'wb') as f:
+                    content = avatar.file.read()
+                    f.write(content)
 
+                image_name = user['first_name'] + '_' + user['_id'] + '.jpg'
+                os.rename(os.path.join(BaseConfig.static_dir + '\\avatars\\', avatar.filename),
+                          os.path.join(BaseConfig.static_dir + '\\avatars\\', image_name))
+
+                await User.save_avatar_url(db=self.app['db'], user_id=user['_id'],
+                                           url='/avatars/{}'.format(image_name))
         except:
-            with open(os.path.join(BaseConfig.static_dir + '/avatars/', avatar.filename), 'wb') as f:
-                content = avatar.file.read()
-                f.write(content)
-
-            image_name = user['first_name'] + '_' + user['_id'] + '.jpg'
-            os.rename(os.path.join(BaseConfig.static_dir + '/avatars/', avatar.filename),
-                      os.path.join(BaseConfig.static_dir + '/avatars/', image_name))
-
-            await User.save_avatar_url(db=self.app['db'], user_id=user['_id'],
-                                       url='/avatars/{}'.format(image_name))
+            pass
 
         location = self.app.router['user'].url_for()
         return web.HTTPFound(location=location)

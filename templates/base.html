@@ -57,7 +57,7 @@
                 {% block content %}
                     {% if current_user.privilege == 'admin' %}
 
-                        <div class="container" style="position: relative; height: 500px; width: 800px; top: 25px">
+                        <div class="container" style="position: relative; width: 800px; top: 25px">
 
                             <div class='card' style="text-align: center; border-radius: 15px">
                                 <div class="card-header">
@@ -65,9 +65,13 @@
                                 </div>
                                 <div class="card-body">
                                     {% for user in all_users %}
-                                        <h4>
+                                        <div style="position: relative;">
                                             <div id="admin">
-                                                {{ user.first_name }} {{user.last_name}}  {{user.email}}
+                                                {% if user.privilege == 'admin' %}
+                                                    <h5 style="color: red">{{ user.first_name }}</h5>
+                                                {% else %}
+                                                    {{ user.first_name }} {{user.last_name}} <br> {{user.email}}
+                                                {% endif %}
                                             </div>
 
                                             <div id="admin">
@@ -86,7 +90,10 @@
                                                     </button>
                                                 </form>
                                             </div>
-                                        </h4>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
                                     {% endfor %}
                                 </div>
                             </div>

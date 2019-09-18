@@ -40,4 +40,5 @@ def ident(photo_user, login_photo):
 
 
 if __name__ == '__main__':
-    print(ident('1.jpg', '2.jpg'))
+    a = screen()
+    print(ident('1.jpg', a))

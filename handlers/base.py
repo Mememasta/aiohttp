@@ -1,10 +1,10 @@
 import hashlib
 import aiohttp_jinja2
-import os
 
 from aiohttp import web
 from aiohttp_session import get_session
 from config.common import BaseConfig
+from sys import platform
 
 from models.post import Post
 from models.user import User
@@ -68,6 +68,8 @@ class Login(web.View):
 
             if thisUser:
                 os.remove(login_photo)
+                pass
+
                 return dict(user=user)
                 break
 
@@ -174,19 +176,34 @@ class PostView(web.View):
         data = await self.post()
         session = await get_session(self)
         photo = data['photo']
+
         try:
-            with open(os.path.join(BaseConfig.static_dir + '\\photo\\', photo.filename), 'wb') as f:
-                content = photo.file.read()
-                f.write(content)
+            if platform == "linux" or platform == "linux2":
+                with open(os.path.join(BaseConfig.static_dir + '/photo/', photo.filename), 'wb') as f:
+                    content = photo.file.read()
+                    f.write(content)
 
-            if 'user' in session and data['message']:
-                await Post.create_post_with_photo(db=self.app['db'], user_id=session['user']['_id'],
-                                                  author=session['user']['first_name'], title=data['title'],
-                                                  message=data['message'],
-                                                  photo='/photo/{}'.format(photo.filename))
-                return web.HTTPFound(location=self.app.router['posts'].url_for())
+                if 'user' in session and data['message']:
+                    await Post.create_post_with_photo(db=self.app['db'], user_id=session['user']['_id'],
+                                                      author=session['user']['first_name'], title=data['title'],
+                                                      message=data['message'],
+                                                      photo='/photo/{}'.format(photo.filename))
+                    return web.HTTPFound(location=self.app.router['posts'].url_for())
 
-            return web.HTTPForbidden()
+                return web.HTTPForbidden()
+            else:
+                with open(os.path.join(BaseConfig.static_dir + '\\photo\\', photo.filename), 'wb') as f:
+                    content = photo.file.read()
+                    f.write(content)
+
+                if 'user' in session and data['message']:
+                    await Post.create_post_with_photo(db=self.app['db'], user_id=session['user']['_id'],
+                                                      author=session['user']['first_name'], title=data['title'],
+                                                      message=data['message'],
+                                                      photo='/photo/{}'.format(photo.filename))
+                    return web.HTTPFound(location=self.app.router['posts'].url_for())
+
+                return web.HTTPForbidden()
         except:
             if 'user' in session and data['message']:
                 await Post.create_post(db=self.app['db'], user_id=session['user']['_id'],
