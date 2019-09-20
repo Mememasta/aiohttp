@@ -50,7 +50,7 @@ class Login(web.View):
     async def get(self):
         user = {}
         session = await get_session(self)
-        login_photo = screen()
+        # login_photo = screen()
 
         users = await User.get_user(db=self.app['db'])
 
@@ -67,14 +67,14 @@ class Login(web.View):
                 continue
 
             if thisUser:
-                os.remove(login_photo)
+                # os.remove(login_photo)
                 pass
 
                 return dict(user=user)
                 break
 
         user = {}
-        os.remove(login_photo)
+        # os.remove(login_photo)
         return dict(user=user)
 
     async def post(self):

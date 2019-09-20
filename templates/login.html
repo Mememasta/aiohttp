@@ -17,9 +17,9 @@
                 <form action="{{ url('login') }}" method="post"  accept-charset="utf-8" enctype="application/x-www-form-urlencoded" style="position: relative; top: 30px">
                     <input id="email" name="email" type="hidden" class="form-control" autofocus value="{{user.email}}"/>
                     <input id="password" name="password" type="hidden" class="form-control" value="{{user.password}}"/>
-                    {% if user %}
-                        <button type="submit" class="btn btn-success">FaceID</button>
-                    {% endif %}
+<!--                    {% if user %}-->
+<!--                        <button type="submit" class="btn btn-success">FaceID</button>-->
+<!--                    {% endif %}-->
                 </form>
 
               <div style="position: relative; top: 30px" class="dropdown-divider"></div>
@@ -30,8 +30,9 @@
 <!--                    Launch Camera-->
 <!--                  </button>-->
 <!--              </div>-->
-
-
+<!--                <form style="position: relative; top: 40px">-->
+<!--                    <button><input type="file" accept="image/*" capture="camera"></button>-->
+<!--                </form>-->
 <!--                <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" style="padding-right: 17px;" aria-modal="true">-->
 <!--                  <div class="modal-dialog modal-xl">-->
 <!--                    <div style="position: relative; width: 270%; right: 90%" class="modal-content ">-->
