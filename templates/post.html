@@ -7,15 +7,15 @@
                 <div class="card" id="post">
                   <div class="card-header">
                     <h2>
-                        {{post.title}}
                         {% if current_user.privilege == 'admin' %}
-                            <form style="position: relative;" action="{{ url('delete_post') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+                            <form style="position: relative; top: 28px; left: 8px" action="{{ url('delete_post') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
                                 <input type="hidden" id="post_id" name="post_id" value="{{ post._id }}">
                                 <button style="position: relative; top: -30px"  type="submit" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                 </button>
                             </form>
                         {% endif %}
+                        {{post.title}}
                     </h2>
 
                   </div>
@@ -70,7 +70,7 @@
                             <label for="comment_text"><small>Send text</small></label>
 
                             <div class="form-group">
-                                <textarea class="form-control" id="comment_text" name="comment_text" required value="" rows="1"></textarea>
+                                <textarea class="form-control" id="comment_text" name="comment_text" maxlength="280" required value="" rows="1"></textarea>
                             </div>
 
                             <input type="hidden" id="author" name="author" value="{{ current_user.first_name }}">
