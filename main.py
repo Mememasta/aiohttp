@@ -25,9 +25,8 @@ async def current_user_ctx_processor(request):
     return dict(current_user=user, is_anonymous=is_anonymous)
 
 
-def main():
+async def init_app():
     app = web.Application(debug=True)
-
     secret_key = base64.urlsafe_b64decode(BaseConfig.secret_key)
     setup(app, EncryptedCookieStorage(secret_key))
 
@@ -38,10 +37,14 @@ def main():
 
     setup_routes(app)
     setup_static_routes(app)
-
     app['config'] = BaseConfig
     app['db'] = getattr(AsyncIOMotorClient(), BaseConfig.database_name)
 
+    return app
+
+
+def main():
+    app = init_app()
     logging.basicConfig(level=logging.DEBUG)
     web.run_app(app)
 
